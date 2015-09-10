@@ -1,12 +1,13 @@
 ---
-title: "Why I support the faculty union (CFA)"
-author: "Elizabeth Stanny"
+title: "Why I support my faculty union (the CFA)"
+author: "Elizabeth Stanny, Professor of Business, Sonoma State University"
 date: "`r format(Sys.time(), '%B %d, %Y')`" 
 output:
   html_document:
+    number_sections: yes
     theme: flatly 
     toc: yes
-    toc_depth: 4 
+    toc_depth: 4
 ---
 
  
@@ -20,25 +21,27 @@ suppressPackageStartupMessages(library(RColorBrewer))
 suppressPackageStartupMessages(library(metricsgraphics))
 suppressPackageStartupMessages(library(htmltools))
 
-df <-read_excel("all_classes.xlsx")
+df <-read_excel("all_classes.xlsx") #read all class enrollments downloaded from MYSSU
 
 df_no_sup <- df %>% 
-  filter(Enrolled > 3, A_Year != 'AY15_16') %>% 
+    # eliminate course that I supervised students b/c because these don't count toward teaching load
+  filter(Enrolled > 3, A_Year != 'AY15_16') %>%    
   select(A_Year, Enrolled, Course, LD_UD_Grad)
 
 ```
-### CFA is the strongest supporter of SSU's primary sstakeholders
 
-+ The state and the students 
-+ The two courses of SSU operating Funds according are the State (including Lottery) and Students (Fees and Tuitiion)
-+ All resouce allocatioon decisions that do or will affect the operating budget shoudl be able to justify how these stakeholders are affected ty these deicisons. 
+# The CFA is the strongest supporter of SSU's primary stakeholders
 
++ The **state** provides $50.8 million (53%) of SSU's operating budget
++ The **students** provide  $44.5 million (47%) of SSU's operating budget (Source: SSU 2015 Fact Book) 
+    + All  decisions that do or will affect the current of future operating budgets should consider how these stakeholders are or will be affected by these decisions including the decision to accept donations 
+        + Why does it seem that $11 million in donors and gifts per year drive the decision of the university when they don't contribute to the operating budget, but require allocations from it at least in terms of human capital?
 
-### CFA (not the administration) has motivated to teach during the summer by forcign the administartion ot pay fair wage.  
++ I joined SSU because I love to teach and to learn.  I'm always looking for ways to engage students so they want to learn and tackle difficult topics.  Since I joined SSU in 1999 I've felt more supported by the CFA than any other entity on campus in promoting student learning. 
 
-### My ability to serve my studnets (teachin, advising and mentoring) has decrased overtime as the number of students enrolled increased
+# My ability to serve my students (teaching, advising and mentoring) has decreased overtime as the number of students enrolled in my classes has increased
 
-### Table of coures I taught during the last 13 academic years 
+## Table: enrollments in courses I've taught during the last 13 academic years 
 
 
 ```{r, echo=FALSE}
@@ -69,7 +72,7 @@ formatStyle(
   textAlign = 'center'
 ) 
 
-# For each academcy year find min, mean , max classe sizes and the total number of classes
+# For each academic year find min, mean , max class sizes and the total number of classes
 df <-read_excel("all_classes.xlsx")
 
 df_no_sup <- df %>% 
@@ -78,9 +81,7 @@ df_no_sup <- df %>%
 
 ```
 
-
-### Graph of increase in my average class size
-
+## Graph: my average classes by academic year
 
 ```{r, echo=FALSE}
 df_stats <- df_no_sup %>% 
@@ -95,16 +96,11 @@ ay <-bind_cols(data.frame(year=c(2002:2014), df_stats))
 
 ay %>%
   mjs_plot(x=year, y=mean, width= 800, height = 600) %>%
-  mjs_point(point_size = 8, least_squares = TRUE) %>%
+  mjs_point(point_size = 10, least_squares = TRUE) %>%
   mjs_labs(x = "Year", y = "Average Class Size") 
-
 ```
 
-
-
-### Graph of increase in number of students enrolled in my courses 
-
-+ During the 2007/2008 Academic Year I  
+## Graph: total numbers of students enrolled in my courses by academic year 
 
 ```{r, echo=FALSE}
 ay %>%
@@ -124,33 +120,54 @@ ay %>%
   mjs_axis_y(yax_count = 10, 
      extended_ticks = FALSE 
      ) %>% 
-  mjs_add_marker(2007, "Chair of Faculty and Sabbatical") %>% 
-  mjs_add_marker(2010, "Year I gave up memorizing all my students' names") 
+  mjs_add_marker(2007, "A") %>% 
+  mjs_add_marker(2010, "B") 
 
 ```
 
-### 53 = number of students assigned to me for advising this semester
++ Note: the size of the point is a function of number of classes taught.  Largest circle = 6 classes per academic year.
++ A = I had sabbatical for one semester this year 
++ B = AY 2010-11 stopped taking pictures of my students and learning all their names
 
-### 5 = number of years since my last computer refresh
 
-+ summers I've worked for supplemental income some of which went ot buy a computer to produce and edit
+## Other indicators
++ 53 = number of students assigned to me for advising this semester
++ 5 = number of years since my last university computer refresh
++ 5 = number of summers I've taught during the last 5 years to supplemental my income and to buy a computer to make learning and working on videos I produce for teaching fun and not frustrating 
+   + 97 = videos  produced and loaded on Vimeo for my students  during the last 28 weeks 
+   + 0 = videos I would have made on my university owned computer
+   + The videos are posted [here](https://vimeo.com/user37582497/albums) 
 
-### 97 = videos I'm produced and loaded on Vimeo for my classes during the last 2 years using the computer I bought with money I eanred teaching in the summer session
-
-+ 0 = videos I would have made on a univerisity owned ocmputer
-
-+ The videos are [here](https://vimeo.com/user37582497/albums) 
-
-### Play and finish data downloaded from Vimeo
+**Table: student views of my videos by week** 
 
 ```{r, echo=FALSE}
 
 df_vimeo <-read_excel("vimeo20150908.xlsx")
-datatable(df_vimeo, rownames = FALSE)
 
+datatable(df_vimeo, rownames = FALSE,
+  options = list(
+    order = list(1, 'desc'),
+    pageLength = 5)
+)
 ```
 
-### Final thought:  This semester I planned  to have my Advanced Accountign (BUS 430) students display interactive graphs like these on their SSU studnet web pages.  Unfortuantlay, SSU IT decided to disconinue stuent web accounts on Sept 1, 2015, the day after my studnets signed up for them.  THis work couldn't be replicated on SSU's the alternativve, google sites (through google apps).  Sadly, the web pages are  being stored on my personal Dropbox account.   
+# Final thoughts  
+
++ I really want to love my job.  Why does the SSU administration (including IT) needless make my job more difficult than it needs to be?
+    + This semester I planned  to have my Advanced Accounting (BUS 430) students display interactive tables and graphs like the ones on these pages on their SSU student web pages  
+        + Unfortunately, SSU IT decided to discontinue student web accounts on Sept 1, 2015, the day after my students signed up for them  
+        + This web page can't be displayed on SSU's alternative, Google Sites (part of Google Apps)  
+        + Sadly, with such short notice of the University's change, the class web pages are  being stored on my personal Dropbox account this semester until I figure out a better alternative 
+    + At the beginning of last fall semester, SSU IT introduced the NBC learn module to moodle.  This module caused my quizzes to be unworkable.  
+        + SSU IT is off during the weekend, but my students and I aren't and I had told my students to work on the quizzes during the weekend before their classes on Monday.  
+        + I spent my weekend moving my 109 students and 3 courses to my own build of moodle. After the hassle of signing up for a free developer account on AWS and creating scripts to enroll all my students.  It worked out so well I taught on if for the rest of the semester  
+       + I've kept my moodle site up just in case SSU IT decides to introduce another incompatible module. It is [here](http://moodle.ssumoodle.bitnamiapp.com).  
+
+
+
+
+
+
 
 
 
