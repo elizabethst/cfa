@@ -1,0 +1,160 @@
+---
+title: "Why I support the faculty union (CFA)"
+author: "Elizabeth Stanny"
+date: "`r format(Sys.time(), '%B %d, %Y')`" 
+output:
+  html_document:
+    theme: flatly 
+    toc: yes
+    toc_depth: 4 
+---
+
+ 
+
+```{r, echo=FALSE}
+suppressPackageStartupMessages(library(readxl))
+suppressPackageStartupMessages(library(DT))
+suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(htmlwidgets))
+suppressPackageStartupMessages(library(RColorBrewer))
+suppressPackageStartupMessages(library(metricsgraphics))
+suppressPackageStartupMessages(library(htmltools))
+
+df <-read_excel("all_classes.xlsx")
+
+df_no_sup <- df %>% 
+  filter(Enrolled > 3, A_Year != 'AY15_16') %>% 
+  select(A_Year, Enrolled, Course, LD_UD_Grad)
+
+```
+### CFA is the strongest supporter of SSU's primary sstakeholders
+
++ The state and the students 
++ The two courses of SSU operating Funds according are the State (including Lottery) and Students (Fees and Tuitiion)
++ All resouce allocatioon decisions that do or will affect the operating budget shoudl be able to justify how these stakeholders are affected ty these deicisons. 
+
+
+### CFA (not the administration) has motivated to teach during the summer by forcign the administartion ot pay fair wage.  
+
+### My ability to serve my studnets (teachin, advising and mentoring) has decrased overtime as the number of students enrolled increased
+
+### Table of coures I taught during the last 13 academic years 
+
+
+```{r, echo=FALSE}
+datatable(df_no_sup, 
+  rownames = FALSE,
+  extensions = 'ColVis',
+  options = list(
+    order = list(list(0, 'desc'),list(3, 'asc')),
+    initComplete = JS(
+        "function(settings, json) {",
+          "$(this.api().table().header()).css({'background-color': '#000', 'color': '#fff'});",
+        "}"
+    ),
+    dom = 'C<"clear">lfrtip')
+) %>% 
+formatStyle(
+    'Enrolled',
+    background = styleColorBar(df_no_sup$Enrolled, 'lightblue'),
+    backgroundSize = '100% 90%',
+    backgroundRepeat = 'no-repeat',
+    backgroundPosition = 'center',
+    fontWeight = 'bold'
+) %>%
+formatStyle(
+  'LD_UD_Grad',
+  target = 'row',
+  backgroundColor = styleEqual(c('LD', 'UD', 'Grad'), c('white', 'lightyellow', 'lightorange')),
+  textAlign = 'center'
+) 
+
+# For each academcy year find min, mean , max classe sizes and the total number of classes
+df <-read_excel("all_classes.xlsx")
+
+df_no_sup <- df %>% 
+  filter(Enrolled > 3, A_Year != 'AY15_16') %>% 
+  select(A_Year, Enrolled, Course, LD_UD_Grad)
+
+```
+
+
+### Graph of increase in my average class size
+
+
+```{r, echo=FALSE}
+df_stats <- df_no_sup %>% 
+  group_by(A_Year) %>% 
+  summarize_each(funs(min(., na.rm = TRUE), 
+                    mean(., na.rm = TRUE), 
+                    max(., na.rm = TRUE),
+                    sum(., na.rm = TRUE),
+                    n()), matches("Enrolled"))
+
+ay <-bind_cols(data.frame(year=c(2002:2014), df_stats))
+
+ay %>%
+  mjs_plot(x=year, y=mean, width= 800, height = 600) %>%
+  mjs_point(point_size = 8, least_squares = TRUE) %>%
+  mjs_labs(x = "Year", y = "Average Class Size") 
+
+```
+
+
+
+### Graph of increase in number of students enrolled in my courses 
+
++ During the 2007/2008 Academic Year I  
+
+```{r, echo=FALSE}
+ay %>%
+  mjs_plot(x=year, y=sum, width= 800, height = 600) %>%
+  mjs_point(least_squares = TRUE) %>%
+  mjs_labs(x = "Year", y = "Total Number of Students Enrolled") %>%
+  mjs_point(least_squares= TRUE,
+            size_accessor=n, 
+            size_range=c(5, 15)
+            ) %>%
+  mjs_axis_x(xax_count = 10, 
+     extended_ticks = FALSE, 
+     min_x = 2002, 
+     max_x = 2014,
+     show_secondary_x_label = TRUE
+     ) %>% 
+  mjs_axis_y(yax_count = 10, 
+     extended_ticks = FALSE 
+     ) %>% 
+  mjs_add_marker(2007, "Chair of Faculty and Sabbatical") %>% 
+  mjs_add_marker(2010, "Year I gave up memorizing all my students' names") 
+
+```
+
+### 53 = number of students assigned to me for advising this semester
+
+### 5 = number of years since my last computer refresh
+
++ summers I've worked for supplemental income some of which went ot buy a computer to produce and edit
+
+### 97 = videos I'm produced and loaded on Vimeo for my classes during the last 2 years using the computer I bought with money I eanred teaching in the summer session
+
++ 0 = videos I would have made on a univerisity owned ocmputer
+
++ The videos are [here](https://vimeo.com/user37582497/albums) 
+
+### Play and finish data downloaded from Vimeo
+
+```{r, echo=FALSE}
+
+df_vimeo <-read_excel("vimeo20150908.xlsx")
+datatable(df_vimeo, rownames = FALSE)
+
+```
+
+### Final thought:  This semester I planned  to have my Advanced Accountign (BUS 430) students display interactive graphs like these on their SSU studnet web pages.  Unfortuantlay, SSU IT decided to disconinue stuent web accounts on Sept 1, 2015, the day after my studnets signed up for them.  THis work couldn't be replicated on SSU's the alternativve, google sites (through google apps).  Sadly, the web pages are  being stored on my personal Dropbox account.   
+
+
+
+
+
+
+
